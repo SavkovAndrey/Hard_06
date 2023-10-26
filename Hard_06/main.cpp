@@ -19,7 +19,7 @@ using namespace std;
 +(поэлементное сложение);
 += (добавление элемента в конец массива);
 –(удаление элемента по ключу);
-= (присвоение);
+= (присвоение); 
 == (сравнение по элементам);
 [] (взятие элемента с заданным индексом).
 */
@@ -59,6 +59,7 @@ public:
 
 	Array& operator -(int key);                      // удаление элемента по ключу (перегрузка -)
 
+	bool operator ==(const Array& other);            // перегрузка оператора ==
 };
 
 
@@ -88,11 +89,24 @@ int main() {
 
 	//-----ОТЛАДКА
 	
-	arr1 - 5;
-
-	arr1.output();
+	cout << "Введите размер массива 2 : " << endl;
+	cin >> s;
 	
+	Array arr2(s);
 
+	arr2.input();
+
+	arr2.output();
+
+	if (arr1 == arr2)
+	{
+		cout << "массивы равны!";
+	}
+	else
+	{
+		cout << "массивы не равны";
+	}
+	cout << endl;
 	//-----ОТЛАДКА
 
 
@@ -279,6 +293,28 @@ Array& Array::operator -(int key)
 		cout << endl << "ОШИБКА!!! Вы пытаетесь удалить не существующий элемент!!!" << endl;
 		system("pause");
 		exit(1);
+	}
+}
+
+//-------------------------- ПЕРЕГРУЗКА ОПЕРАТОРА ==
+
+bool Array::operator ==(const Array& other)
+{
+	if (this->size == other.size)                       // если размеры равны, смотрим дальше
+	{
+		for (int i = 0; i < size; i++)
+		{
+			if (this->arr[i] != other.arr[i])           // поэлементно сравниваем, если хоть один элемент не равен - false
+			{
+				return false;
+			}
+		}
+
+		return true;
+	}
+	else                                                // если размеры не равны - false
+	{
+		return false;
 	}
 }
 
