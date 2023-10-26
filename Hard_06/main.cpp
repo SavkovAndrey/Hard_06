@@ -55,6 +55,7 @@ public:
 
 	Array operator +(const Array& other);            // перегрузка оператора +
 
+	Array& operator +=(int elem);                    // добавление элемента в конец массива
 
 };
 
@@ -84,17 +85,11 @@ int main() {
 
 
 	//-----ОТЛАДКА
-	Array arr2(s);
+	
+	arr1 += 17;
 
-	arr2.input();
-
-	arr2.output();
-
-	Array arr3;
-
-	arr3 = arr1 + arr2;
-
-	arr3.output();
+	arr1.output();
+	
 
 	//-----ОТЛАДКА
 
@@ -227,6 +222,28 @@ Array Array::operator +(const Array& other)
 		cout << endl << "ОШИБКА!!! Вы пытаетесь сложить матрицы разных размеров!!! " << endl;
 		exit(1);
 	}
+}
+
+//-------------------------- ДОБАВЛЕНИЕ ЭЛЕМЕНТА В КОНЕЦ МАССИВА (ПЕРЕГРУЗКА +=)
+
+Array& Array::operator +=(int elem)
+{
+	Array buff(*this);
+
+	delete[] this->arr;
+	
+	this->size = buff.size + 1;
+
+	this->arr = new int[size];
+
+	for (int i = 0; i < size - 1; i++)
+	{
+		this->arr[i] = buff.arr[i];
+	}
+
+	this->arr[size - 1] = elem;
+
+    return *this;
 }
 
 //--------------------------
