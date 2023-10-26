@@ -55,13 +55,15 @@ public:
 
 	Array operator +(const Array& other);            // перегрузка оператора +
 
-	Array& operator +=(int elem);                    // добавление элемента в конец массива
+	Array& operator +=(int elem);                    // добавление элемента в конец массива (перегрузка +=)
+
+	Array& operator -(int key);                      // удаление элемента по ключу (перегрузка -)
 
 };
 
 
 
-//---------------------ПРОТОТИПЫ-------------------------------------------------
+//-------------------------ПРОТОТИПЫ-------------------------------------------------
 
 
 
@@ -86,7 +88,7 @@ int main() {
 
 	//-----ОТЛАДКА
 	
-	arr1 += 17;
+	arr1 - 5;
 
 	arr1.output();
 	
@@ -220,6 +222,7 @@ Array Array::operator +(const Array& other)
 	else                                                  // если матрицы не равны: пишем ошибку, завершаем программу
 	{
 		cout << endl << "ОШИБКА!!! Вы пытаетесь сложить матрицы разных размеров!!! " << endl;
+		system("pause");
 		exit(1);
 	}
 }
@@ -228,22 +231,55 @@ Array Array::operator +(const Array& other)
 
 Array& Array::operator +=(int elem)
 {
-	Array buff(*this);
+	Array buff(*this);                                    // создаем копию нашего массива
 
-	delete[] this->arr;
+	delete[] this->arr;                                   // удаляем наш массив
 	
 	this->size = buff.size + 1;
 
-	this->arr = new int[size];
+	this->arr = new int[size];                            // создаем новый массив увеличенной длинны
 
-	for (int i = 0; i < size - 1; i++)
+	for (int i = 0; i < size - 1; i++)                    
 	{
 		this->arr[i] = buff.arr[i];
 	}
 
-	this->arr[size - 1] = elem;
+	this->arr[size - 1] = elem;                           // переносим из буфера все элементы и в конце дописываем новый
 
     return *this;
+}
+
+//-------------------------- УДАЛЕНИЕ ЭЛЕМЕНТА ПО КЛЮЧУ (перегрузка -)
+
+Array& Array::operator -(int key)
+{
+	Array temp(*this);                                   // создаем копию нашего массива
+
+	delete[] this->arr;                                  // очищаем наш массив
+
+	size = temp.size - 1; 
+
+	this->arr = new int[size];                           // создаем новый массив на 1 элемент меньше
+
+	if (key <= temp.size)                                // проверяем , что выбран элемент не за пределами массива
+	{
+		for (int i = 0, j = 0; i < temp.size; i++)       // переносим из буфера все элементы (кроме элемента номер key)
+		{
+			if (i + 1 != key)
+			{
+				this->arr[j] = temp.arr[i];
+				j++;
+			}
+		}
+
+		return *this;
+	}
+	else
+	{
+		cout << endl << "ОШИБКА!!! Вы пытаетесь удалить не существующий элемент!!!" << endl;
+		system("pause");
+		exit(1);
+	}
 }
 
 //--------------------------
