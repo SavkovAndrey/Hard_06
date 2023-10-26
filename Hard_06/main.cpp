@@ -35,9 +35,9 @@ private:
 
 public:
 
-	Array();                                        // конструктор по умолчанию
+	Array();                                         // конструктор по умолчанию
 
-	Array(const Array& other);                      // конструктор копирования
+	Array(const Array& other);                       // конструктор копирования
 
 	Array(int size);                                 // конструктор с параметрами
 
@@ -51,48 +51,10 @@ public:
 
 	void output();                                   // вывод массива на экран
 
-	//-----------------------------------------------   перегрузка =
+	Array& operator =(const Array& other);           // перегрузка оператора =
 
-	Array& operator =(const Array& other)  
-	{
-		this->size = other.size;             // берем нашему размеру, размер присваеваемого
-		
-		if (this->arr != nullptr)            // очищаем наш массив, если он не пуст
-		{
-			delete[] this->arr;
-		}
+	Array operator +(const Array& other);            // перегрузка оператора +
 
-		this->arr = new int[other.size];     // выделяем нашему массиву память (что бы влез присваеваемый)
-
-		for (int i = 0; i < other.size; i++) // переносим в наш массив пресваеваемый массив
-		{
-			this->arr[i] = other.arr[i];
-		}
-
-		return *this;                        // возвращаем разименованный указатель на наш объект
-	}
-	
-	//-----------------------------------------------   перегрузка +
-
-	Array operator +(const Array& other)
-	{
-		if (this->size == other.size)                         // сравниваем размеры слогаемых матриц
-		{
-			Array rezult(other.size);                         // создаем результирующую матрицу
-			
-			for (int i = 0; i < other.size; i++)              // заполняем результирующую суммой 
-			{
-				rezult.arr[i] = this->arr[i] + other.arr[i];
-			}
-
-			return rezult;                                    // возвращаем результирующую
-		}
-		else                                                  // если матрицы не равны: пишем ошибку, завершаем программу
-		{
-			cout << endl << "ОШИБКА!!! Вы пытаетесь сложить матрицы разных размеров!!! " << endl;
-			exit(1);                                                         
-		}
-	}
 
 };
 
@@ -147,17 +109,22 @@ int main() {
 
 //----------------------------------МЕТОДЫ (Array)-----------------------------------
 
-int Array::getSize()                                 // геттер
+//-------------------------- ГЕТТЕР
+int Array::getSize()                                 
 {
 	return(size);
 }
 
-void Array::setSize(int size)                        // сеттер
+//-------------------------- СЕТТЕР
+
+void Array::setSize(int size)                        
 {
 	this->size = size;
 }
 
-Array::Array()                                       // конструктор по умолчанию
+//-------------------------- КОНСТРУКТОР ПО УМОЛЧАНИЮ
+
+Array::Array()                                       
 {
 	this->size = 1;
 	arr = new int[size];
@@ -167,7 +134,9 @@ Array::Array()                                       // конструктор по умолчанию
 	}
 }
 
-Array::Array(const Array& other)                      // конструктор копирования
+//-------------------------- КОНСТРУКТОР КОПИРОВАНИЯ
+
+Array::Array(const Array& other)                    
 {
 	this->size = other.size;
 	arr = new int[size];
@@ -177,18 +146,24 @@ Array::Array(const Array& other)                      // конструктор копирования
 	}
 }
  
-Array::Array(int size)                               // конструктор с параметрами
+//-------------------------- КОНСТРУКТОРС ПАРАМЕТРАМИ
+
+Array::Array(int size)                              
 {
 	this->size = size;
 	arr = new int[size];
 }
 
-Array::~Array()                                      // деструктор
+//-------------------------- ДЕСТРУКТОР
+
+Array::~Array()                                     
 {
 	delete[] arr;
 }
 
-void Array::input()                                  // ввод массива с клавиатуры
+//-------------------------- ВВОД МАССИВА С КЛАВИАТУРЫ
+
+void Array::input()                                  
 {
 	cout << endl;
 	for (int i = 0; i < size; i++)
@@ -199,7 +174,9 @@ void Array::input()                                  // ввод массива с клавиатур
 	cout << endl;
 }
 
-void Array::output()                                   // вывод массива на экран
+//-------------------------- ВЫВОД МАССИВА НА ЭКРАН
+
+void Array::output()                                   
 {
 	cout << endl;
 	for (int i = 0; i < size; i++)
@@ -209,3 +186,47 @@ void Array::output()                                   // вывод массива на экран
 	cout << endl;
 }
 
+//-------------------------- ПЕРЕГРУЗКА ОПЕРАТОРА =
+
+Array& Array::operator =(const Array& other)         
+{
+	this->size = other.size;                          // берем нашему размеру, размер присваеваемого
+
+	if (this->arr != nullptr)                         // очищаем наш массив, если он не пуст
+	{
+		delete[] this->arr;
+	}
+
+	this->arr = new int[other.size];                  // выделяем нашему массиву память (что бы влез присваеваемый)
+
+	for (int i = 0; i < other.size; i++)              // переносим в наш массив пресваеваемый массив
+	{
+		this->arr[i] = other.arr[i];
+	}
+
+	return *this;                                     // возвращаем разименованный указатель на наш объект
+}
+
+//-------------------------- ПЕРЕГРУЗКА ОПЕРАТОРА +
+
+Array Array::operator +(const Array& other)              
+{
+	if (this->size == other.size)                         // сравниваем размеры слогаемых матриц
+	{
+		Array rezult(other.size);                         // создаем результирующую матрицу
+
+		for (int i = 0; i < other.size; i++)              // заполняем результирующую суммой 
+		{
+			rezult.arr[i] = this->arr[i] + other.arr[i];
+		}
+
+		return rezult;                                    // возвращаем результирующую
+	}
+	else                                                  // если матрицы не равны: пишем ошибку, завершаем программу
+	{
+		cout << endl << "ОШИБКА!!! Вы пытаетесь сложить матрицы разных размеров!!! " << endl;
+		exit(1);
+	}
+}
+
+//--------------------------
