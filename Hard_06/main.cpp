@@ -43,9 +43,13 @@ public:
 
 	~Array();                                        // деструктор
 	
-	int getSize();
+	int getSize();                                   // геттер
 
-	void setSize(int size);
+	void setSize(int size);                          // сеттер
+
+	void input();                                    // ввод массива с клавиатуры
+
+	void output();                                   // вывод массива на экран
 };
 
 
@@ -61,13 +65,16 @@ int main() {
 	setlocale(LC_ALL, "RU");
 	srand(time(NULL));
 	
+	int s;                   // размер массива
 
+	cout << "Введите размер массива 1 : " << endl;
+	cin >> s;
 
+	Array arr1(s);
 
-
-	//test git
-	// test2 git
-
+	arr1.input();
+	
+	arr1.output();
 
 
 
@@ -81,12 +88,12 @@ int main() {
 
 //----------------------------------МЕТОДЫ--------------------------------------------
 
-int Array::getSize()
+int Array::getSize()                                 // геттер
 {
 	return(size);
 }
 
-void Array::setSize(int size)
+void Array::setSize(int size)                        // сеттер
 {
 	this->size = size;
 }
@@ -121,3 +128,25 @@ Array::~Array()                                      // деструктор
 {
 	delete[] arr;
 }
+
+void Array::input()                                  // ввод массива с клавиатуры
+{
+	cout << endl;
+	for (int i = 0; i < size; i++)
+	{
+		cout << "введите " << i + 1 << "-й элемент массива: ";
+		cin >> arr[i];
+	}
+	cout << endl;
+}
+
+void Array::output()                                   // вывод массива на экран
+{
+	cout << endl;
+	for (int i = 0; i < size; i++)
+	{
+		cout << arr[i] << "\t";
+    }
+	cout << endl;
+}
+
