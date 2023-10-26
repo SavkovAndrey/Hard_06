@@ -74,7 +74,25 @@ public:
 	
 	//-----------------------------------------------   перегрузка +
 
+	Array operator +(const Array& other)
+	{
+		if (this->size == other.size)                         // сравниваем размеры слогаемых матриц
+		{
+			Array rezult(other.size);                         // создаем результирующую матрицу
+			
+			for (int i = 0; i < other.size; i++)              // заполняем результирующую суммой 
+			{
+				rezult.arr[i] = this->arr[i] + other.arr[i];
+			}
 
+			return rezult;                                    // возвращаем результирующую
+		}
+		else                                                  // если матрицы не равны: пишем ошибку, завершаем программу
+		{
+			cout << endl << "ОШИБКА!!! Вы пытаетесь сложить матрицы разных размеров!!! " << endl;
+			exit(1);                                                         
+		}
+	}
 
 };
 
@@ -104,13 +122,18 @@ int main() {
 
 
 	//-----ОТЛАДКА
-	Array arr2;
+	Array arr2(s);
+
+	arr2.input();
 
 	arr2.output();
 
-	arr2 = arr1;
+	Array arr3;
 
-	arr2.output();
+	arr3 = arr1 + arr2;
+
+	arr3.output();
+
 	//-----ОТЛАДКА
 
 
