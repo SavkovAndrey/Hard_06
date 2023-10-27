@@ -2,7 +2,7 @@
 #include <iostream>
 #include <time.h>
 
-
+//#include <cstdlib>
 
 using namespace std;
 
@@ -60,6 +60,12 @@ public:
 	Array& operator -(int key);                      // удаление элемента по ключу (перегрузка -)
 
 	bool operator ==(const Array& other);            // перегрузка оператора ==
+
+	int& operator [](int elem);                      // перегрузка оператора []
+
+	friend ostream& operator <<(ostream& os, Array& array);   // перегрузка оператора <<
+
+	friend istream& operator >>(istream& es, Array& array);   // перегрузка оператора >>
 };
 
 
@@ -75,7 +81,7 @@ int main() {
 	setlocale(LC_ALL, "RU");
 	srand(time(NULL));
 	
-	int s;                   // размер массива
+	int s, s2;                   // размер массива
 
 	cout << "Введите размер массива 1 : " << endl;
 	cin >> s;
@@ -88,25 +94,13 @@ int main() {
 
 
 	//-----ОТЛАДКА
+	cout << "Введите размер массива 1 : " << endl;
+	cin >> s2;
 	
-	cout << "Введите размер массива 2 : " << endl;
-	cin >> s;
-	
-	Array arr2(s);
+	Array arr2(s2);
+	cin >> arr2;
+	cout << arr2;
 
-	arr2.input();
-
-	arr2.output();
-
-	if (arr1 == arr2)
-	{
-		cout << "массивы равны!";
-	}
-	else
-	{
-		cout << "массивы не равны";
-	}
-	cout << endl;
 	//-----ОТЛАДКА
 
 
@@ -316,6 +310,42 @@ bool Array::operator ==(const Array& other)
 	{
 		return false;
 	}
+}
+
+//-------------------------- ПЕРЕГРУЗКА ОПЕРАТОРА []
+
+int& Array::operator [](int elem)          // int возвращаем по ссылке, что бы мы могли не только выводить, но и менять
+{                                          // перегрузив оператор [], мы можем через него менять элементы:
+	return arr[elem];                      // cout << arr1[2] << endl;    cin >> arr1[2];
+}
+
+
+//-------------------------- ПЕРЕГРУЗКА ОПЕРАТОРА <<
+
+ostream& operator <<(ostream& os, Array& array)
+{
+	cout << "Массив:" << endl;
+	for (int i = 0; i < array.size; i++)
+	{
+		os << setw(4) << array.arr[i];
+	}
+	cout << endl;
+
+	return os;
+}
+
+//-------------------------- ПЕРЕГРУЗКА ОПЕРАТОРА >>
+
+istream& operator >>(istream& es, Array& array)
+{
+	for (int i = 0; i < array.size; i++)
+	{
+		cout << "Введите " << i + 1 << "-й элемент массива: ";
+		es >> array.arr[i];
+	}
+	cout << endl;
+
+	return es;
 }
 
 //--------------------------
