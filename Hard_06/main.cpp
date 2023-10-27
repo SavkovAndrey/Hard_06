@@ -66,6 +66,8 @@ public:
 	friend ostream& operator <<(ostream& os, Array& array);   // перегрузка оператора <<
 
 	friend istream& operator >>(istream& es, Array& array);   // перегрузка оператора >>
+
+	int search(int element);                         // поиск элемента в массиве (первого встретившегося)
 };
 
 
@@ -94,12 +96,7 @@ int main() {
 
 
 	//-----ОТЛАДКА
-	cout << "Введите размер массива 1 : " << endl;
-	cin >> s2;
-	
-	Array arr2(s2);
-	cin >> arr2;
-	cout << arr2;
+	cout << "Номер элемента со значением 30:  " << arr1.search(30);
 
 	//-----ОТЛАДКА
 
@@ -183,7 +180,7 @@ void Array::input()
 
 void Array::output()                                   
 {
-	cout << endl;
+	cout << "Массив:" << endl;
 	for (int i = 0; i < size; i++)
 	{
 		cout << arr[i] << "\t";
@@ -331,7 +328,7 @@ ostream& operator <<(ostream& os, Array& array)
 	}
 	cout << endl;
 
-	return os;
+	return os;                                        // можно использовать:  Cout << arr1;
 }
 
 //-------------------------- ПЕРЕГРУЗКА ОПЕРАТОРА >>
@@ -345,7 +342,21 @@ istream& operator >>(istream& es, Array& array)
 	}
 	cout << endl;
 
-	return es;
+	return es;                                      // можно использовать:  cin >> arr1;
+}
+
+//-------------------------- ПОИСК ЭЛЕМЕНТА МАССИВА (ПЕРВОГО ВСТРЕТИВШЕГОСЯ)
+
+int Array::search(int element)
+{
+	for (int i = 0; i < size; i++)            // перебираем элементы и ищем нужный нам
+	{
+		if (arr[i] == element)
+		{
+			return i;                         // возвращаем его номер , если нашли
+		}
+	}
+	return -1;                                // если нет, возвращаем -1, как ошибку
 }
 
 //--------------------------
