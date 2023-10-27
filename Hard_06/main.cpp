@@ -76,7 +76,7 @@ public:
 
 //-------------------------ПРОТОТИПЫ-------------------------------------------------
 
-
+void menu();
 
 
 
@@ -84,25 +84,127 @@ public:
 int main() {
 	setlocale(LC_ALL, "RU");
 	srand(time(NULL));
+
 	
-	int s, s2;                   // размер массива
+	int s;                 // размер массива
 
 	cout << "Введите размер массива 1 : " << endl;
 	cin >> s;
 
 	Array arr1(s);
-
-	arr1.input();
-	
+    arr1.input();
 	arr1.output();
 
+	while(true)
+	{
+		menu();
+		int n;
+		cin >> n;
 
-	//-----ОТЛАДКА
-	arr1.sort();
+		switch (n)
+		{
+		case 1:
+		   {
+			int s2;
+			cout << "Введите размер массива 2 : " << endl;
+			cin >> s2;
+			Array arr2(s2);
+			cin >> arr2;
+			Array result = arr1 + arr2;
+			cout << result;
 
-	cout << arr1;
+			break;
+		   }
+	    
+		case 2:
+		   {
+			cout << "Какой элемент добавить в конец массива?" << endl;
+			int num;
+			cin >> num;
+			arr1 += num;
+			cout << "Итог:" << endl;
+			cout << arr1;
 
-	//-----ОТЛАДКА
+			break;
+		   }
+		case 3:
+		   {
+			cout << "Элемент с каким номером удалить из массива?" << endl;
+			int num;
+			cin >> num;
+			arr1 - num;
+			cout << "Итог:" << endl;
+			cout << arr1;
+
+			break;
+		   }
+
+		case 4:
+		   {
+			cout << "Введите размер и элементы массива для сравнения" << endl;
+			int s3;
+			cin >> s3;
+			Array arr3(s3);
+			cin >> arr3;
+			if (arr1 == arr3)
+			{
+				cout << endl << "Массивы равны" << endl;
+			}
+			else
+			{
+				cout << endl << "Массивы не равны" << endl;
+			}
+
+			break;
+		   }
+
+		case 5:
+		   {
+			cout << endl << "выберите индекс элемента, который нужно взять:" << endl;
+			int num;
+			cin >> num;
+			cout << "Элемент с индексом " << num << " это: " << arr1[num] << endl;
+
+			break;
+		   }
+
+		case 6:
+		   {
+			cout << endl << "номер какого элемента вы хотите найти?" << endl;
+			int elem;
+			cin >> elem;
+			if (arr1.search(elem) >= 0)
+			{
+				cout << endl << "элемент " << elem << " имеет индекс: " << arr1.search(elem) << endl;
+			}
+			else
+			{
+				cout << endl << "Такого элемента нет в массиве!" << endl;
+			}
+
+			break;
+		   }
+
+		case 7:
+		   {
+			cout << "Массив был отсортирован по возрастанию, результат: " << endl;
+			arr1.sort();
+			cout << arr1;
+
+			break;
+		   }
+		case 0:
+		   {
+			cout << endl << "Вы вышли из программы." << endl;
+			system("pause");
+			return 0;
+            break;
+		   }
+		}
+
+
+	}
+
 
 
 	system("pause");
@@ -111,7 +213,21 @@ int main() {
 
 //----------------------------------ФУНКЦИИ------------------------------------------
 
-
+void menu()
+{
+	cout << endl;
+	cout << endl << "ВОЗМОЖНЫЕ ДЕЙСТВИЯ:" << endl;;
+	cout << endl << "1 - Суммирование массивов";
+	cout << endl << "2 - Добавление элемента в конец массива";
+	cout << endl << "3 - удаление элемента по номеру";
+	cout << endl << "4 - сравнить массивы по элементно";
+	cout << endl << "5 - взять элемент с заданным индексом";
+	cout << endl << "6 - найти номер элемента по значению (первого встретившегося)";
+	cout << endl << "7 - провести сортировку массива по возрастанию";
+	cout << endl << "0 - выйти из программы";
+	cout << endl;
+	cout << endl << "Выберете действие:";
+}
 
 //----------------------------------МЕТОДЫ (Array)-----------------------------------
 
@@ -219,14 +335,14 @@ Array Array::operator +(const Array& other)
 {
 	if (this->size == other.size)                         // сравниваем размеры слогаемых матриц
 	{
-		Array rezult(other.size);                         // создаем результирующую матрицу
+		Array result(other.size);                         // создаем результирующую матрицу
 
 		for (int i = 0; i < other.size; i++)              // заполняем результирующую суммой 
 		{
-			rezult.arr[i] = this->arr[i] + other.arr[i];
+			result.arr[i] = this->arr[i] + other.arr[i];
 		}
 
-		return rezult;                                    // возвращаем результирующую
+		return result;                                    // возвращаем результирующую
 	}
 	else                                                  // если матрицы не равны: пишем ошибку, завершаем программу
 	{
