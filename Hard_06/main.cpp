@@ -68,6 +68,8 @@ public:
 	friend istream& operator >>(istream& es, Array& array);   // перегрузка оператора >>
 
 	int search(int element);                         // поиск элемента в массиве (первого встретившегося)
+
+	void sort();                                     // сортировка массива по возрастанию
 };
 
 
@@ -96,7 +98,9 @@ int main() {
 
 
 	//-----ОТЛАДКА
-	cout << "Номер элемента со значением 30:  " << arr1.search(30);
+	arr1.sort();
+
+	cout << arr1;
 
 	//-----ОТЛАДКА
 
@@ -357,6 +361,24 @@ int Array::search(int element)
 		}
 	}
 	return -1;                                // если нет, возвращаем -1, как ошибку
+}
+
+//-------------------------- СОРТИРОВКА МАССИВА ПО ВОЗРАСТАНИЮ
+
+void Array::sort()
+{
+	for (int i = 0; i < size; i++)
+	{
+		for (int j = 0; j < size - 1; j++) 
+		{
+			if (arr[j] > arr[j + 1])
+			{
+				int temp = arr[j];
+				arr[j] = arr[j + 1];
+				arr[j + 1] = temp; 
+			}
+		}
+	}
 }
 
 //--------------------------
